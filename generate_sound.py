@@ -36,9 +36,9 @@ class GenerateSound:
         sd.play(sin1, self.fs)
         sd.wait()
 
-        plt.plot(self.time[0:1000], sin1[0:1000])
-        plt.grid(True)
-        plt.show()
+        # plt.plot(self.time[0:1000], sin1[0:1000])
+        # plt.grid(True)
+        # plt.show()
 
 
 
