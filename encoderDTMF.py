@@ -1,41 +1,26 @@
 import numpy as np
 import sounddevice as sd
 import matplotlib.pyplot as plt
+import math
+import generate_sound as generate
+from pynput import keyboard
+import tkinter  as tk
 
-#fs = 44100
-dtmf_table = {
-    'number_1' : [1209,697]
-    'number_2' : [1336,697]
-    'number_3' : [1447,697]
-    'A'        : [1633,697]
-    'number_4' : [1209,770]
-    'number_5' : [1336,770]
-    'number_6' : [1447,770]
-    'B'        : [1633,770]
-    'number_7' : [1209,852]
-    'number_8' : [1336,852]
-    'number_9' : [1447,852]
-    'C'        : [1633,852]
-    '*'        : [1209,941]
-    'number_0' : [1336,941]
-    '#'        : [1447,941]
-    'D'        : [1633,941]}
-    
-for i in range(360):
-    number_1.append(np.sin(i))
+generate = generate.GenerateSound()
 
-y = number_1
-# reproduz o som
-#sd.play(y, fs)
+# number1 = generate.generate(1)
 
-# aguarda fim da reprodução
-#sd.wait()
+def on_press(key):
+    try:
+        for i in range(0,10):
+            if key.char == str(i):
+                generate.generate(i)    
+    except AttributeError:
+        return 'AttributeError'
 
-t = np.arange(0.0, 1.0, 0.01)
+def on_release(key):
+    if key == keyboard.Key.esc:
+        return False
 
-plt.plot(t, np.sin(2*np.pi*t))
-plt.grid(True)
-plt.title('A sine wave or two')
-plt.xlabel('Tempo (s)')
-plt.ylabel('Amplitude da Onda (m)')
-plt.show()
+with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
