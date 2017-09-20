@@ -2,6 +2,7 @@ import numpy as np
 import sounddevice as sd
 import matplotlib.pyplot as plt
 import math
+import time
 
 class GenerateSound:
     def __init__(self):
@@ -36,9 +37,12 @@ class GenerateSound:
         sd.play(sin1, self.fs)
         sd.wait()
 
-        # plt.plot(self.time[0:1000], sin1[0:1000])
-        # plt.grid(True)
-        # plt.show()
+        plt.plot(self.time[0:1000], sin1[0:1000])
+        plt.title(numero)
+        plt.grid(True)
+        plt.show(block=False)
+        time.sleep(1)
+        # plt.close()
 
 
 
