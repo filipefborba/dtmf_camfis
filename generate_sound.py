@@ -25,7 +25,7 @@ class GenerateSound:
         '#'        : [1477,941],
         'D'        : [1633,941]}
         self.time = np.linspace(0,1,self.fs)
-
+        
     def generate(self, numero):
         numero = 'number_' + str(numero)
         freq1a = self.dtmf_table[numero][0]
@@ -42,7 +42,7 @@ class GenerateSound:
         plt.grid(True)
         plt.show(block=False)
         time.sleep(1)
-        # plt.close()
+        plt.close()
 
 
 
