@@ -7,13 +7,13 @@ import generate_sound as gs
 teste = pickle.load(open( "save.p", "rb" ))
 
 def calcFFT(signal, fs):
-        from scipy import signal as window
+    from scipy import signal as window
 
-        N  = len(signal)
-        T  = 1/fs
-        xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
-        yf = fft(signal)
-        return(xf, yf[0:N//2])
+    N  = len(signal)
+    T  = 1/fs
+    xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
+    yf = fft(signal)
+    return(xf, yf[0:N//2])
     
 def getTwoMax(lista):
     sort = sorted(lista)

@@ -7,11 +7,11 @@ from functools import partial
 from pynput import keyboard
 
 
-class MyFrame(Frame):
+class EncoderDTMF(Frame):
     def __init__(self):
         self.root = Tk()
         self.gs = gs.GenerateSound()
-        Frame.__init__(self)
+        EncoderDTMF.__init__(self)
         self.master.title("DTMF")
         self.master.rowconfigure(5, weight=1)
         self.master.columnconfigure(5, weight=1)
@@ -43,4 +43,4 @@ class MyFrame(Frame):
             self.gs.generate(texto)
 
 if __name__ == "__main__":
-    MyFrame().mainloop()
+    EncoderDTMF().mainloop()
