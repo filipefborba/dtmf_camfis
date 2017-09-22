@@ -43,6 +43,7 @@ class GenerateSound:
         plt.show(block=False)
         time.sleep(1)
         plt.close()
+        return sin1
 
 
 
