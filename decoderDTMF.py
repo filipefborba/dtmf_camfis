@@ -19,8 +19,6 @@ class DecoderDTMF:
         time.sleep(2)
         plt.close('all')
     
-    def detect_frequencies(self):
-    
     def calcFFT(signal, fs):
 
         N  = len(signal)

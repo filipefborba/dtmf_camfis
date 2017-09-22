@@ -3,6 +3,7 @@ from scipy.fftpack import fft, ifft
 import matplotlib.pyplot as plt
 import numpy as np
 import generate_sound as gs
+import decoderDTMF
 
 teste = pickle.load(open( "save.p", "rb" ))
 
@@ -22,13 +23,13 @@ def getTwoMax(lista):
 def main():
     generate = gs.GenerateSound()
 
-    number_1 = generate.generate(1)
+    # number_1 = generate.generate(1)
 
     # Import sound as file
     y = pickle.load(open( "save.p", "rb" ))
     print(y[-10:])
 
-    y = number_1
+    # y = number_1
 
     fs = 44100
 
