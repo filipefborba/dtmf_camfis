@@ -6,6 +6,7 @@ import pickle
 from scipy.fftpack import fft, ifft
 from scipy import signal as window
 from scipy.signal import find_peaks_cwt
+from itertools import combinations
 import math
 
 class DecoderDTMF:
@@ -21,16 +22,20 @@ class DecoderDTMF:
         
         # Atualiza plot
         ax.clear()
-        ax.plot(x[0:3000],y[0:3000])
+        ax.plot(x[0:5000],y[0:5000])
         fig.canvas.draw()
 
-    def make_plot(self,t,y):
-        plt.plot(t[0:500], y[0:500])
-        plt.show(block=False)
-        sd.play(y, self.fs)
-        sd.wait()        
-        time.sleep(2)
-        plt.close('all')
+    def make_plot(self, x, y):
+        plt.plot(x[0:5000], y[0:5000])
+        plt.grid(True)
+        plt.ylabel("(implementar) Decibéis (dB)")
+        plt.xlabel("Frequência (Hz)")
+        plt.title("Identificação DTMF")
+        plt.show()
+
+    def save_data(self,y):
+        # Save a dictionary into a pickle file.
+        pickle.dump( y, open( "number_1.p", "wb" ) )
     
     def calcFFT(self, signal):
         N  = len(signal)
@@ -44,63 +49,74 @@ class DecoderDTMF:
     #     return sort[-1], sort[-2]
 
     def getFreqs(self, lista):
-        indexes = find_peaks_cwt(lista, np.arange(1,550))
-        print(indexes)
-        return indexes[0], indexes[1]
+        cleared_indexes = []
+        indexes = find_peaks_cwt(lista, np.arange(1,200))
+        indexes = indexes//2
+        for value in list(indexes):
+            if 650 <= value <= 1700:
+                cleared_indexes.append(value)
+        return cleared_indexes
 
-    def save_data(self,y):
-        # Save a dictionary into a pickle file.
-        pickle.dump( y, open( "number_1.p", "wb" ) )
+    def identify_number(self, freq_list):
+        range = 5
+        freq_list = freq_list[::-1]
+        print(freq_list)
+        for combo in combinations(freq_list, 2):
+            high_freq, low_freq = combo
+            if 1209-range <= high_freq <= 1209+range:
+                if 697-range <= low_freq <= 697+range:
+                    print("O número discado foi 1!")
+                    break
+                elif 770-range <= low_freq <= 770+range:
+                    print("O número discado foi 4!")
+                    break
+                elif 852-range <= low_freq <= 852+range:
+                    print("O número discado foi 7!")
+                    break
+            elif 1336-range <= high_freq <= 1336+range:
+                if 697-range <= low_freq <= 697+range:
+                    print("O número discado foi 2!")
+                    break
+                elif 770-range <= low_freq <= 770+range:
+                    print("O número discado foi 5!")
+                    break
+                elif 852-range <= low_freq <= 852+range:
+                    print("O número discado foi 8!")
+                    break
+                elif 941-range <= low_freq <= 941+range:
+                    print("O número discado foi 0!")
+                    break
+            elif 1477-range <= high_freq <= 1477+range:
+                if 697-range <= low_freq <= 697+range:
+                    print("O número discado foi 3!")
+                    break
+                elif 770-range <= low_freq <= 770+range:
+                    print("O número discado foi 6!")
+                    break
+                elif 852-range <= low_freq <= 852+range:
+                    print("O número discado foi 9!")
+                    break
 
-    def identify_number(self, low_freq, high_freq):
-        range = 10
-        if 1209-range <= high_freq <= 1209+range: #Coluna do 1, 4 e 7
-            if 697-range <= low_freq <= 697+range:
-                print("O número discado foi 1!")
-            elif 770-range <= low_freq <= 770+range:
-                print("O número discado foi 4!")
-            elif 852-range <= low_freq <= 852+range:
-                print("O número discado foi 7!")
-        elif 1336-range <= high_freq <= 1336+range: #Coluna do 2, 5, 8 e 0
-            if 697-range <= low_freq <= 697+range:
-                print("O número discado foi 2!")
-            elif 770-range <= low_freq <= 770+range:
-                print("O número discado foi 5!")
-            elif 852-range <= low_freq <= 852+range:
-                print("O número discado foi 8!")
-            elif 941-range <= low_freq <= 941+range:
-                print("O número discado foi 0!")
-        elif 1477-range <= high_freq <= 1477+range: #Coluna do 3, 6 e 9
-            if 697-range <= low_freq <= 697+range:
-                print("O número discado foi 3!")
-            elif 770-range <= low_freq <= 770+range:
-                print("O número discado foi 6!")
-            elif 852-range <= low_freq <= 852+range:
-                print("O número discado foi 9!")
-        else:
-            print("Bugou mein...")
+        print("Frequência Alta: " + str(high_freq))
+        print("Frequência Baixa: " + str(low_freq))
+        return high_freq, low_freq
 
     def main(self):
         while True:
             # audio = sd.rec(int(self.duration*self.fs), self.fs, channels=1)
             # sd.wait()
-
             # y = audio[:,0]
-            t = np.linspace(0,self.duration,self.fs*self.duration)
-
             # self.save_data(y)
             # self.make_plot(t,y)
-            y = pickle.load(open("teste.p", "rb")) #Pickle gerado a partir da onda correta do number_1
+
+            t = np.linspace(0,self.duration,self.fs*self.duration)
+            y = pickle.load(open("number_4.p", "rb"))
 
             X, Y = self.calcFFT(y)
-            plt.plot(X, np.abs(Y))
-            plt.grid()
             y_graph = list(np.abs(Y))
-            low_freq, high_freq = self.getFreqs(y_graph)
-            print("Frequência Baixa: " + str(low_freq ))
-            print("Frequência Alta:  " + str(high_freq))
-            self.identify_number(low_freq, high_freq)
-            plt.show()
+            freq_list = self.getFreqs(y_graph)
+            self.identify_number(freq_list)
+            self.make_plot(X, np.abs(Y))
 
 if __name__ == "__main__":
     DecoderDTMF().main()
