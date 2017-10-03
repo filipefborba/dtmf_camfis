@@ -13,6 +13,10 @@ class DecoderDTMF:
     def __init__(self):
         self.fs = 44100
         self.duration = 1
+        self.file = ""
+
+    def setFile(self, fileDir):
+        self.file = fileDir
     
     def make_dynamic_plot(self, x, y):
         # Cria plot
@@ -43,10 +47,6 @@ class DecoderDTMF:
         xf = np.linspace(0.0, 1.0/(2.0*T), N//2)
         yf = fft(signal)
         return(xf, yf[0:N//2])
-    
-    # def getTwoMax(self, lista):
-    #     sort = sorted(lista)
-    #     return sort[-1], sort[-2]
 
     def getFreqs(self, lista):
         cleared_indexes = []
@@ -110,7 +110,7 @@ class DecoderDTMF:
             # self.make_plot(t,y)
 
             t = np.linspace(0,self.duration,self.fs*self.duration)
-            y = pickle.load(open("number_4.p", "rb"))
+            y = pickle.load(open(self.file, "rb"))
 
             X, Y = self.calcFFT(y)
             y_graph = list(np.abs(Y))
