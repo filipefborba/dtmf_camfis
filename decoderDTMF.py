@@ -26,12 +26,18 @@ class DecoderDTMF:
         fig.canvas.draw()
 
     def make_plot(self, x, y):
-        plt.plot(x[0:5000], y[0:5000])
+        y_db = []
+        ymax = 20000
+        for value in y:
+            new_value = 10*math.log(value/ymax)
+            y_db.append(new_value)
+        plt.plot(x, y_db)
         plt.grid(True)
-        plt.ylabel("(implementar) Decibéis (dB)")
+        plt.ylabel("Decibéis (dB)")
         plt.xlabel("Frequência (Hz)")
         plt.title("Identificação DTMF")
         plt.show()
+        
 
     def save_data(self,y):
         # Save a dictionary into a pickle file.
