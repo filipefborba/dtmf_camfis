@@ -69,7 +69,8 @@ class Screen:
     
     def onTheFlyDecoder(self):
         self.hideDecoderButtons()
-        pass
+        self.updateText("Modo On-The-Fly")
+        self.decoderdtmf.onthefly()
     
     def pickFileDecoder(self):
         self.hideDecoderButtons()

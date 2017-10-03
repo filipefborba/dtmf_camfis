@@ -19,14 +19,23 @@ class DecoderDTMF:
         self.file = fileDir
     
     def make_dynamic_plot(self, x, y):
+        y_db = []
+        ymax = 20000
+        for value in y:
+            new_value = 10*math.log(value/ymax)
+            y_db.append(new_value)
         # Cria plot
         plt.ion()
-        fig = plt.figure("F(y)", figsize=(10,10))
+        fig = plt.figure("DTMF", figsize=(6,6))
         ax  = fig.add_subplot(111)
         
         # Atualiza plot
         ax.clear()
-        ax.plot(x[0:5000],y[0:5000])
+        ax.plot(x,y_db)
+        ax.grid(True)
+        ax.set_ylabel("Decibéis (dB)")
+        ax.set_xlabel("Frequência (Hz)")
+        ax.set_title("Identificação DTMF")
         fig.canvas.draw()
 
     def make_plot(self, x, y):
@@ -114,8 +123,8 @@ class DecoderDTMF:
             # y = audio[:,0]
             # self.save_data(y)
             # self.make_plot(t,y)
+            # t = np.linspace(0,self.duration,self.fs*self.duration)
 
-            t = np.linspace(0,self.duration,self.fs*self.duration)
             y = pickle.load(open(self.file, "rb"))
 
             X, Y = self.calcFFT(y)
@@ -123,6 +132,18 @@ class DecoderDTMF:
             freq_list = self.getFreqs(y_graph)
             self.identify_number(freq_list)
             self.make_plot(X, np.abs(Y))
+    
+    def onthefly(self):
+        while True:
+            t = np.linspace(0,self.duration,self.fs*self.duration)
+            audio = sd.rec(int(self.duration*self.fs), self.fs, channels=1)
+            sd.wait()
+            y = audio[:,0]
+            X, Y = self.calcFFT(y)
+            y_graph = list(np.abs(Y))
+            freq_list = self.getFreqs(y_graph)
+            self.identify_number(freq_list)
+            self.make_dynamic_plot(X, np.abs(Y))
 
 if __name__ == "__main__":
     DecoderDTMF().main()
