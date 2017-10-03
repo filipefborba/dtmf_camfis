@@ -11,7 +11,7 @@ class EncoderDTMF(Frame):
     def __init__(self):
         self.root = Tk()
         self.gs = gs.GenerateSound()
-        EncoderDTMF.__init__(self)
+        Frame.__init__(self)
         self.master.title("DTMF")
         self.master.rowconfigure(5, weight=1)
         self.master.columnconfigure(5, weight=1)

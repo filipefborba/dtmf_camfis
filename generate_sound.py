@@ -3,6 +3,7 @@ import sounddevice as sd
 import matplotlib.pyplot as plt
 import math
 import time
+import pickle
 
 class GenerateSound:
     def __init__(self):
@@ -24,7 +25,7 @@ class GenerateSound:
         'number_0' : [1336,941],
         '#'        : [1477,941],
         'D'        : [1633,941]}
-        self.time = np.linspace(0,1,self.fs)
+        self.time = np.linspace(0,2,self.fs*2)
         
     def generate(self, numero):
         numero = 'number_' + str(numero)
@@ -33,6 +34,8 @@ class GenerateSound:
         freq1b = self.dtmf_table[numero][1]
         sin1b = np.sin(2*math.pi*self.time*freq1b)
         sin1 = sin1a + sin1b
+
+        pickle.dump(sin1, open( "teste.p", "wb" ) )
 
         sd.play(sin1, self.fs)
         sd.wait()
