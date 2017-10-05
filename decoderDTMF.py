@@ -142,6 +142,7 @@ class DecoderDTMF:
             X, Y = self.calcFFT(y)
             y_graph = list(np.abs(Y))
             freq_list = self.getFreqs(y_graph)
+            self.save_data(y)
             self.identify_number(freq_list)
             self.make_dynamic_plot(X, np.abs(Y))
 
