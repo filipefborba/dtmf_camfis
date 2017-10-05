@@ -8,11 +8,11 @@ Gerado (original)           |  Transmitido
 
 #### Frequẽncias registradas
   Gerado: </br>
-  Frequência Alta: 1336 </br>
-  Frequência Baixa: 941 </br>
+  Frequência Alta: 1209 </br>
+  Frequência Baixa: 697 </br>
   Transmitido: </br>
-  Frequência Alta: 1336 </br>
-  Frequência Baixa: 941 </br>
+  Frequência Alta: 1209 </br>
+  Frequência Baixa: 697 </br>
 
 
 # 1:
