@@ -44,7 +44,7 @@ class DecoderDTMF:
         for value in y:
             new_value = 10*math.log(value/ymax)
             y_db.append(new_value)
-        plt.plot(x, y_db)
+        plt.plot(x, y)
         plt.grid(True)
         plt.ylabel("Decibéis (dB)")
         plt.xlabel("Frequência (Hz)")
