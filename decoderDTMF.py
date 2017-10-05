@@ -40,6 +40,7 @@ class DecoderDTMF:
 
     def make_plot(self, x, y):
         y_db = []
+        fig = plt.figure()
         ymax = 20000
         for value in y:
             new_value = 10*math.log(value/ymax)
@@ -49,6 +50,7 @@ class DecoderDTMF:
         plt.ylabel("Decibéis (dB)")
         plt.xlabel("Frequência (Hz)")
         plt.title("Identificação DTMF")
+        fig.savefig("fourier/transmited/1.png")
         plt.show()
         
 
