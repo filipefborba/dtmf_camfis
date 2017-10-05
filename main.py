@@ -19,13 +19,13 @@ class Screen:
 
         print('Screen Started')
         self.window = tk.Tk()
-        self.window.geometry('250x200')
+        self.window.geometry('300x300')
         self.window.title('DTMF')
         self.window.resizable(0, 0)
         for i in range(2):
             self.window.rowconfigure(i, minsize=50)
 
-        self.window.columnconfigure(0, minsize=250)
+        self.window.columnconfigure(0, minsize=300)
         self.window.configure(bg='#14A1CC')
 
         self.title = tk.Label(self.window)
