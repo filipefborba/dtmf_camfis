@@ -19,7 +19,7 @@ Gerado (original)           |  Transmitido
 
 Gerado (original)           |  Transmitido
 :-------------------------:|:-------------------------:
-![](https://github.com/filipefborba/dtmf_raphorba/blob/master/fourier/generated/1.png)  |  ![]()
+![](https://github.com/filipefborba/dtmf_raphorba/blob/master/fourier/generated/1.png)  |  ![](https://github.com/filipefborba/dtmf_raphorba/blob/master/fourier/transmited/1.png)
 
 #### Frequẽncias registradas
   Gerado: </br>
