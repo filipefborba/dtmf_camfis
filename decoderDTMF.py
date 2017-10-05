@@ -45,14 +45,14 @@ class DecoderDTMF:
         for value in y:
             new_value = 10*math.log(value/ymax)
             y_db.append(new_value)
-        plt.plot(x, y)
+        # value = input("numero do arquivo: ")
+        plt.plot(x, y_db)
         plt.grid(True)
         plt.ylabel("Decibéis (dB)")
         plt.xlabel("Frequência (Hz)")
         plt.title("Identificação DTMF")
-        fig.savefig("fourier/transmited/1.png")
+        fig.savefig("fourier/transmited/9.png")
         plt.show()
-        
 
     def save_data(self,y):
         # Save a dictionary into a pickle file.
@@ -67,7 +67,7 @@ class DecoderDTMF:
 
     def getFreqs(self, lista):
         cleared_indexes = []
-        indexes = find_peaks_cwt(lista, np.arange(1,200))
+        indexes = find_peaks_cwt(lista, np.arange(1, 300))
         indexes = indexes//2
         for value in list(indexes):
             if 650 <= value <= 1700:

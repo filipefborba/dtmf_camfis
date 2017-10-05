@@ -93,7 +93,7 @@ class Screen:
         self.btnfn = fn
 
     def askopenfile(self):
-        fileName = filedialog.askopenfilename(initialdir = "/", title = "Select file",filetypes = (("pickle files","*.p"), ("all files","*.*")))
+        fileName = filedialog.askopenfilename(initialdir = "/home/documents/Escola/Insper/rapha/dtmf_raphorba/", title = "Select file",filetypes = (("pickle files","*.p"), ("all files","*.*")))
         self.fileDir = fileName
         split = fileName.split('/')
         self.insertButton.configure(text='Arquivo: ' + split[len(split) - 1])
