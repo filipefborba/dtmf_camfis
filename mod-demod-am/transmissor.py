@@ -27,8 +27,8 @@ class Transmitter:
     def __init__(self):
         self.fcut = 4000
         self.fs = 44100
-        self.m1 = "computacao.wav"
-        self.m2 = "raphorba.wav"
+        self.m1 = "raphorba.wav"
+        self.m2 = "trabson.wav"
 
     def calcFFT(self, signal):
         N  = len(signal)
