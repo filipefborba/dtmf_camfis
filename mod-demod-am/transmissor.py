@@ -1,3 +1,4 @@
+
 import wave, struct, math
 import sounddevice as sd
 from scipy import signal as sg
@@ -5,6 +6,7 @@ from scipy.fftpack import fft, ifft
 import matplotlib.pyplot as plt
 import numpy as np
 import soundfile as sf
+from itertools import zip_longest 
 
 '''
 - Mensagem :
@@ -25,7 +27,7 @@ import soundfile as sf
 
 class Transmitter:
     def __init__(self):
-        self.fcut = 3000
+        self.fcut = 4000
         self.fs = 44100
         self.m1 = "trabson.wav"
         self.m2 = "raphorba.wav"
@@ -90,31 +92,34 @@ class Transmitter:
         sd.play(audio, samplerate)
         sd.wait()
 
+    def sumTwoLists (self, a, b):
+        soma = [x + y for x, y in zip_longest(a, b, fillvalue=0)]
+        return soma
+
     def main(self):
-        #Importando os audios
+        #Importando e lendo os arquivos de áudio
         m1, m1_samplerate = sf.read(self.m1)
         m2, m2_samplerate = sf.read(self.m2)
         m1 = m1[:,0]
         m2 = m2[:,0]
-        print("Áudio: " + self.m1)
+        print("Áudio 1: " + self.m1)
         print("Tamanho do áudio: ", len(m1))
-        print("Samplerate do áudio: ", m1_samplerate)
-        print("Áudio: " + self.m2)
+        print("Sample rate do áudio: ", m1_samplerate)
+        print("Áudio 2: " + self.m2)
         print("Tamanho do áudio: ", len(m2))
-        print("Samplerate do áudio: ", m2_samplerate)
+        print("Sample rate do áudio: ", m2_samplerate)
 
-        #Reproduzindo os audios
-        # self.play(m1, m1_samplerate)
-        # self.play(m2, m2_samplerate)
+        # Reproduzindo os audios a serem transmitidos
+        self.play(m1, m1_samplerate)
+        self.play(m2, m2_samplerate)
 
-        #Aplicando o filtro passa baixas
-        print("p1")
+        #Aplicando o filtro passa baixa
         m1_filtrado = self.LPF(m1, self.fcut, m1_samplerate)
         m2_filtrado = self.LPF(m2, self.fcut, m2_samplerate)
-        print("p2")
-        #Aplicando o Fourier nos sinais
-        m1_fftx, m1_ffty = self.calcFFT(m1_filtrado)
-        m2_fftx, m2_ffty = self.calcFFT(m2_filtrado)
+
+        #Aplicando o Fourier nos sinais filtrados
+        # m1_fftx, m1_ffty = self.calcFFT(m1_filtrado)
+        # m2_fftx, m2_ffty = self.calcFFT(m2_filtrado)
 
         #Plotando o Fourier dos sinais
         # self.make_plot(m1_fftx, np.abs(m1_ffty))
@@ -123,19 +128,41 @@ class Transmitter:
         #Reproduzindo os novos audios
         # self.play(m1_filtrado, m1_samplerate)
         # self.play(m2_filtrado, m2_samplerate)
-        t1 = np.linspace(0, m1_samplerate, len(m1_filtrado))
+
+        #-------------------------------------------------
+        #Gerando a primeira portadora
+        t1 = np.linspace(0, len(m1_filtrado)/self.fs, len(m1_filtrado))
         port1 = np.sin(2*np.pi*self.fc1*t1)
+        port1x, port1y = self.calcFFT(port1)
+
+        #Gerando a modulação do primeiro áudio
         am1 = m1_filtrado*port1
         Xam1, am1_fft = self.calcFFT(am1)
         # self.make_plot(Xam1, np.abs(am1_fft))
-        # port2 = np.cos(2*np.pi*self.fc2*len(m2))
-        t2 = np.linspace(0, m2_samplerate, len(m2_filtrado))
+
+        #-------------------------------------------------
+        #Gerando a segunda portadora
+        t2 = np.linspace(0, len(m2_filtrado)/self.fs, len(m2_filtrado))
         port2 = np.sin(2*np.pi*self.fc2*t2)
+        port2x, port2y = self.calcFFT(port2)
+
+        #Gerando a modulação do segundo áudio
         am2 = m2_filtrado*port2
         Xam2, am2_fft = self.calcFFT(am2)
-        self.play(am2, self.fc2)
-        # self.make_plot(Xam2, np.abs(am2_fft))
+
+        # self.make_carrier_plot(port1x, np.abs(port1y), port2x, np.abs(port2y))
+        #-------------------------------------------------
         # self.make_carrier_plot(Xam1, np.abs(am1_fft), Xam2, np.abs(am2_fft))
+
+        #Gerando a soma dos áudios mmodulados
+        am = self.sumTwoLists(am1, am2)
+        Xam, am_fft = self.calcFFT(am)
+        self.make_plot(Xam, np.abs(am_fft))
+        #-------------------------------------------------
+        # self.play(am2, self.fc2)
+        self.play(am, self.fs)
+        # self.make_plot(Xam2, np.abs(am2_fft))
+        
 
         
         # self.make_plot(X, np.abs(fft_port1))
