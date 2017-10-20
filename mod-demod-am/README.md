@@ -20,5 +20,12 @@ Utilizamos frequências de 5000 Hz e 15000 Hz para construir as portadoras, mant
 Como utilizamos uma frequência de corte de 4000 Hz, a banda ocupada é de 8000Hz.
 
 # Transmissor vs Receptor
-Inserir ao menos um gráfico exemplo de cada item de exibição do transmissor e receptor
-Comparar o resultado dos áudios transmitidos vs recebidos
+ Este é o sinal transmitido:
+
+![Transmitido](https://i.imgur.com/RmISlcb.jpg)
+
+ Este é o sinal recebido:
+
+![Recebido](https://i.imgur.com/tZ5MZTI.jpg)
+
+Podemos perceber que o gráfico do transmitido contém as duas mensagens num mesmo sinal modulado, enquanto que o recebido est exibindo os áudios demodulados um em cima do outro (dois plots diferentes).
