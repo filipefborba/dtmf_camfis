@@ -59,6 +59,24 @@ class Receiver:
         plt.title("Modulação AM")
         plt.show()
 
+    def make_carrier_plot(self, x, y, j, k):
+            # y_db = []
+        fig = plt.figure()
+        # ymax = 20000
+        # for value in y:
+        #     new_value = 10*math.log(value/ymax)
+        #     y_db.append(new_value)
+
+        # plt.plot(x, y_db)
+        plt.plot(x, y)
+        plt.plot(j, k)
+        # plt.axis([0,self.fcut+100,0,max(y)+10])
+        plt.grid(True)
+        plt.ylabel("Decibéis (dB)")
+        plt.xlabel("Frequência (Hz)")
+        plt.title("Modulação AM")
+        plt.show()
+
     def LPF(self, signal, cutoff_hz, fs):
         #####################
         # Filtro
@@ -88,7 +106,8 @@ class Receiver:
 
     def main(self):
         #Gravando o Áudio
-        audio = self.audio_recebido
+        audio, samplerate = sf.read(self.audio_recebido)
+        audio = audio[:,0]
         # teste = transmissor.Transmitter()
         # audio = teste.main()
 
@@ -123,7 +142,7 @@ class Receiver:
 
         m2 = self.LPF(m2_linha, self.fcut, self.fs)
         m2_fftx, m2_ffty = self.calcFFT(m2)
-        self.make_plot(m2_fftx, np.abs(m2_ffty))
+        self.make_carrier_plot(m1_fftx, np.abs(m1_ffty),m2_fftx, np.abs(m2_ffty))
         self.play(m2, self.fs)
         # plt.figure("bruto")
         # plt.plot(tmp)
@@ -133,7 +152,7 @@ class Receiver:
         # plt.show()
         #----------------------------------
 
-        Salvando os sinais recuperados
+        #Salvando os sinais recuperados
         self.saveWav(self.m1, m1, m1_samplerate)
         self.saveWav(self.m2, m2, m2_samplerate)
 
