@@ -1,0 +1,24 @@
+# Modulação
+No nosso programa a modulação de um sinal de áudio é feita da seguinte forma:
+1. Dois áudios m1 e m2 são importados utilizando um pacote chamado soundfile, com isso conseguimos carregar o áudio e o samplerate.
+2. Aplica-se um filtro passa-baixa nesses áudios com uma frequência de corte de 4000 Hz, para depois exibir num gráfico o Fourier dos sinais e reproduzir os novos áudios.
+3. Após isso, é necessário criar uma portadora. A portadora de uma modulação é o sinal que irá “carregar” a mensagem, a combinação da portadora mais a mensagem gera o sinal modulado. A primeira portadora possui uma frequência de 5000 Hz enquanto a segunda de 15000 Hz.
+4. As portadoras são criadas a partir da função `np.sin(2*np.pi*self.fc*t)` com `self.fc` sendo as frequências das portadoras e `t` sendo `np.linspace(0, len(m_filtrado)/44100,len(m_filtrado))`.
+5. Então multiplicamos o áudio filtrado pela portadora, gerando dois áudios modulados. Reproduzimos os dois áudios para verificar e depois os somamos para realizar a transmissão.
+
+# Demodulação
+No nosso programa a demodulação de um sinal de áudio é feita da seguinte forma:
+1. Primeiro gravamos o áudio modulado e exibimos o Fourier do sinal recebido.
+2. Após isso, reconstruímos as portadoras originais e multiplicamos pelo áudio total, recuperando um dos áudios originais de cada vez.
+3. Aplicamos um filtro passa-baixas com a mesma frequência de corte de 4000 Hz e reproduzimos os sinais para verificar se houve perda de informação.
+4. Por fim, salvamos os sinais recuperados.
+
+# Portadoras
+Utilizamos frequências de 5000 Hz e 15000 Hz para construir as portadoras, mantendo a largura de banda para que elas não se 'atropelem'.
+
+# Bandas ocupadas
+Como utilizamos uma frequência de corte de 4000 Hz, a banda ocupada é de 8000Hz.
+
+# Transmissor vs Receptor
+Inserir ao menos um gráfico exemplo de cada item de exibição do transmissor e receptor
+Comparar o resultado dos áudios transmitidos vs recebidos
