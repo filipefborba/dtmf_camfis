@@ -28,4 +28,4 @@ Como utilizamos uma frequência de corte de 4000 Hz, a banda ocupada é de 8000H
 
 ![Recebido](https://i.imgur.com/tZ5MZTI.jpg)
 
-Podemos perceber que o gráfico do transmitido contém as duas mensagens num mesmo sinal modulado, enquanto que o recebido est exibindo os áudios demodulados um em cima do outro (dois plots diferentes).
+Podemos perceber que o gráfico do transmitido contém as duas mensagens num mesmo sinal modulado, enquanto que o recebido está exibindo os áudios demodulados um em cima do outro (dois plots diferentes).
