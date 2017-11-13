@@ -29,3 +29,23 @@ Como utilizamos uma frequência de corte de 4000 Hz, a banda ocupada é de 8000H
 ![Recebido](https://i.imgur.com/tZ5MZTI.jpg)
 
 Podemos perceber que o gráfico do transmitido contém as duas mensagens num mesmo sinal modulado, enquanto que o recebido está exibindo os áudios demodulados um em cima do outro (dois plots diferentes).
+
+# Os sinais (mensagens) a serem transmitidas no tempo
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/raphorbatempo.png)
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/trabsontempo.png)
+
+# O Fourier dos sinais (frequência)
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/raphorba_fourier.png)
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/trabson_fourier.png)
+
+# As portadoras no tempo
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/port1time.png)
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/port2time.png)
+
+# As mensagens moduladas e demoduladas no tempo	
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/mensagem1modtempo.png)
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/mensagem2modetempo.png)
+
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/mensagem1dmodtempo.png)
+![Transmitido](https://github.com/filipefborba/dtmf_raphorba/blob/master/mod-demod-am/mensagem2dmodtempo.png)
+
