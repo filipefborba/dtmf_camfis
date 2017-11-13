@@ -41,7 +41,7 @@ class Transmitter:
         yf = fft(signal)
         return(xf, yf[0:N//2])
     
-    def make_plot(self, x, y):
+    def make_plot(self, x, y, title):
         # y_db = []
         fig = plt.figure()
         # ymax = 20000
@@ -53,9 +53,9 @@ class Transmitter:
         plt.plot(x, y)
         # plt.axis([0,self.fcut+100,0,max(y)+10])
         plt.grid(True)
-        plt.ylabel("Decibéis (dB)")
-        plt.xlabel("Frequência (Hz)")
-        plt.title("Modulação AM")
+        plt.ylabel("")
+        plt.xlabel("")
+        plt.title(title)
         plt.show()
 
     def make_carrier_plot(self, x, y, j, k):
@@ -108,10 +108,11 @@ class Transmitter:
         print("Áudio 2: " + self.m2)
         print("Tamanho do áudio: ", len(m2))
         print("Sample rate do áudio: ", m2_samplerate)
-
+        
         # Reproduzindo os audios a serem transmitidos
-        self.play(m1, m1_samplerate)
-        self.play(m2, m2_samplerate)
+        # self.play(m1, m1_samplerate)
+        # self.play(m2, m2_samplerate)
+
 
         #Aplicando o filtro passa baixa
         m1_filtrado = self.LPF(m1, self.fcut, m1_samplerate)
@@ -132,23 +133,27 @@ class Transmitter:
         #-------------------------------------------------
         #Gerando a primeira portadora
         t1 = np.linspace(0, len(m1_filtrado)/self.fs, len(m1_filtrado))
+        # self.make_plot(t1, m1)
         port1 = np.sin(2*np.pi*self.fc1*t1)
         port1x, port1y = self.calcFFT(port1)
+        # self.make_plot(t1, port1, "Portadora 1 no tempo")
 
         #Gerando a modulação do primeiro áudio
         am1 = m1_filtrado*port1
         Xam1, am1_fft = self.calcFFT(am1)
-        # self.make_plot(Xam1, np.abs(am1_fft))
 
         #-------------------------------------------------
         #Gerando a segunda portadora
         t2 = np.linspace(0, len(m2_filtrado)/self.fs, len(m2_filtrado))
+        # self.make_plot(t2, m2)
         port2 = np.sin(2*np.pi*self.fc2*t2)
         port2x, port2y = self.calcFFT(port2)
+        # self.make_plot(t2, port2, "Portadora 2 no tempo")
 
         #Gerando a modulação do segundo áudio
         am2 = m2_filtrado*port2
         Xam2, am2_fft = self.calcFFT(am2)
+        self.make_plot(t2, am2, "Mensagem 2 modulada no tempo")
 
         # self.make_carrier_plot(port1x, np.abs(port1y), port2x, np.abs(port2y))
         #-------------------------------------------------
@@ -157,10 +162,10 @@ class Transmitter:
         #Gerando a soma dos áudios mmodulados
         am = self.sumTwoLists(am1, am2)
         Xam, am_fft = self.calcFFT(am)
-        self.make_plot(Xam, np.abs(am_fft))
+        # self.make_plot(Xam, np.abs(am_fft))
         #-------------------------------------------------
         # self.play(am2, self.fc2)
-        self.play(am, self.fs)
+        # self.play(am, self.fs)
         # self.make_plot(Xam2, np.abs(am2_fft))
         
 

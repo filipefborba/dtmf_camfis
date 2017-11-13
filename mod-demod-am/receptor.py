@@ -42,7 +42,7 @@ class Receiver:
         yf = fft(signal)
         return(xf, yf[0:N//2])
     
-    def make_plot(self, x, y):
+    def make_plot(self, x, y, title="Gráfico gerado"):
         # y_db = []
         fig = plt.figure()
         # ymax = 20000
@@ -56,7 +56,7 @@ class Receiver:
         plt.grid(True)
         plt.ylabel("Decibéis (dB)")
         plt.xlabel("Frequência (Hz)")
-        plt.title("Modulação AM")
+        plt.title(title)
         plt.show()
 
     def make_carrier_plot(self, x, y, j, k):
@@ -107,6 +107,7 @@ class Receiver:
     def main(self):
         #Gravando o Áudio
         audio, samplerate = sf.read(self.audio_recebido)
+        # audio = self.rec(3)
         audio = audio[:,0]
         # teste = transmissor.Transmitter()
         # audio = teste.main()
@@ -127,23 +128,26 @@ class Receiver:
         #Demodulando o primeiro som
         m1_linha = audio*port1
         m1_linha_fftx, m1_linha_ffty = self.calcFFT(m1_linha)
-        self.make_plot(m1_linha_fftx, np.abs(m1_linha_ffty))
+        # self.make_plot(m1_linha_fftx, np.abs(m1_linha_ffty))
 
         m1 = self.LPF(m1_linha, self.fcut, self.fs)
         m1_fftx, m1_ffty = self.calcFFT(m1)
-        self.make_plot(m1_fftx, np.abs(m1_ffty))
-        self.play(m1, self.fs)
+        # self.make_plot(t, m1, "Mensagem 1 demodulada no tempo")
+        # self.make_plot(m1_fftx, np.abs(m1_ffty))
+        # self.play(m1*3, self.fs)
         
         #---------------------------------
         #Demodulando o segundo som
         m2_linha = audio*port2 
         m2_linha_fftx, m2_linha_ffty = self.calcFFT(m2_linha)
-        self.make_plot(m2_linha_fftx, np.abs(m2_linha_ffty))
+        # self.make_plot(t, m2_linha, "Mensagem 1 demodulada no tempo")
+        # self.make_plot(m2_linha_fftx, np.abs(m2_linha_ffty))
 
         m2 = self.LPF(m2_linha, self.fcut, self.fs)
         m2_fftx, m2_ffty = self.calcFFT(m2)
-        self.make_carrier_plot(m1_fftx, np.abs(m1_ffty),m2_fftx, np.abs(m2_ffty))
-        self.play(m2, self.fs)
+        self.make_plot(t, m2, "Mensagem 2 demodulada no tempo")
+        # self.make_carrier_plot(m1_fftx, np.abs(m1_ffty),m2_fftx, np.abs(m2_ffty))
+        # self.play(m2*3, self.fs)
         # plt.figure("bruto")
         # plt.plot(tmp)
 
@@ -153,8 +157,8 @@ class Receiver:
         #----------------------------------
 
         #Salvando os sinais recuperados
-        self.saveWav(self.m1, m1, m1_samplerate)
-        self.saveWav(self.m2, m2, m2_samplerate)
+        # self.saveWav(self.m1, m1, m1_samplerate)
+        # self.saveWav(self.m2, m2, m2_samplerate)
 
 if __name__ == "__main__":
     Receiver().main()
